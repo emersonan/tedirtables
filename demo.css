@@ -1,0 +1,137 @@
+.dt-wrapper.no-header .dt-container {
+    border-top: 1px solid #d9d9d9;
+}
+.dt-wrapper.no-footer .dt-container {
+    border-bottom: 1px solid #d9d9d9;
+}
+.dt-bottom,
+.dt-top {
+    clear: both;
+    padding: 8px 10px;
+}
+.dt-bottom > div:first-child,
+.dt-top > div:first-child {
+    float: left;
+}
+.dt-bottom > div:last-child,
+.dt-top > div:last-child {
+    float: right;
+}
+.dt-selector {
+    padding: 6px;
+}
+.dt-input {
+    padding: 6px 12px;
+}
+.dt-info {
+    margin: 7px 0;
+}
+.dt-pagination ul {
+    margin: 0;
+    padding-left: 0;
+}
+.dt-pagination li {
+    list-style: none;
+    float: left;
+}
+.dt-pagination a {
+    border: 1px solid transparent;
+    float: left;
+    margin-left: 2px;
+    padding: 6px 12px;
+    position: relative;
+    text-decoration: none;
+    color: #333;
+}
+.dt-pagination a:hover {
+    background-color: #d9d9d9;
+}
+.dt-pagination .active a,
+.dt-pagination .active a:focus,
+.dt-pagination .active a:hover {
+    background-color: #d9d9d9;
+    cursor: default;
+}
+.dt-pagination .disabled a,
+.dt-pagination .disabled a:focus,
+.dt-pagination .disabled a:hover,
+.dt-pagination .ellipsis a {
+    cursor: not-allowed;
+}
+.dt-pagination .disabled a,
+.dt-pagination .disabled a:focus,
+.dt-pagination .disabled a:hover {
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+.dt-pagination .pager a {
+    font-weight: 700;
+}
+.dt-table {
+    max-width: 100%;
+    width: 100%;
+    border-spacing: 0;
+}
+.dt-table > tbody > tr > td,
+.dt-table > tbody > tr > th,
+.dt-table > tfoot > tr > td,
+.dt-table > tfoot > tr > th,
+.dt-table > thead > tr > td,
+.dt-table > thead > tr > th {
+    vertical-align: top;
+    padding: 8px 10px;
+}
+.dt-table > tfoot > tr > th,
+.dt-table > thead > tr > th,
+.dt-table th {
+    vertical-align: bottom;
+    text-align: left;
+}
+.dt-table > thead > tr > th {
+    border-bottom: 1px solid #d9d9d9;
+}
+.dt-table > tfoot > tr > th {
+    border-top: 1px solid #d9d9d9;
+}
+.dt-table th a {
+    text-decoration: none;
+    color: inherit;
+}
+.dt-sorter {
+    height: 100%;
+    position: relative;
+    width: 100%;
+}
+.dt-sorter::after,
+.dt-sorter::before {
+    content: "";
+    height: 0;
+    width: 0;
+    position: absolute;
+    right: 4px;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    opacity: 0.2;
+}
+.dt-sorter::before {
+    border-top: 4px solid #000;
+    bottom: 10px;
+}
+.dt-sorter::after {
+    border-bottom: 4px solid #000;
+    border-top: 4px solid transparent;
+    top: 0;
+}
+.asc .dt-sorter::after,
+.desc .dt-sorter::before {
+    opacity: 0.6;
+}
+.dts-empty {
+    text-align: center;
+}
+.dt-bottom::after,
+.dt-top::after {
+    clear: both;
+    content: " ";
+    display: table;
+}
