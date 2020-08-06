@@ -1,148 +1,144 @@
 // Filterable
-if (window.TedirTable) {
-	TedirTable.extend("filterable", function(instance, options, utils) {
-
-		/**
-		 * Default config
-		 * @type {Object}
-		 */
-		var defaults = {
-			classes: {
-				filter: "dt-filter",
-				filterable: "dt-filterable",
-			}
-		};
+class Filter {
+    /**
+	* Default config
+	* @type {Object}
+	*/
+	defaults = {
+		classes: {
+			filter: "tedirtable-filter",
+			filterable: "tedirtable-filterable",
+		}
+	};
 		
-		/**
-		 * Get the closest matching ancestor
-		 * @param  {Object}   el         The starting node.
-		 * @param  {Function} fn         Callback to find matching ancestor.
-		 * @return {Object|Boolean}      Returns the matching ancestor or false in not found.
-		 */
-		var closest = function(el, fn) {
-				return el && el !== document.body && (fn(el) ? el : closest(el.parentNode, fn));
-		};		
+	/**
+	* Get the closest matching ancestor
+	* @param  {Object}   el         The starting node.
+	* @param  {Function} fn         Callback to find matching ancestor.
+	* @return {Object|Boolean}      Returns the matching ancestor or false in not found.
+	*/
+	closest = (el, fn) => el && el !== document.body && (fn(el) ? el : closest(el.parentNode, fn));
 
-		/**
-		 * Main lib
-		 * @param {Object} config User config
-		 */
-		var Filter = function(config) {
-			this.config = utils.extend(defaults, config);
+    constructor(instance, options, utils, config) {
+        this.instance = instance;
+        this.options = options;
+        this.utils = utils;
+        this.config = utils.extend(this.defaults, config);
+    }
+    
+    /**
+	* Init instance
+	* @return {Void}
+	*/
+	init() {
+		if ( this.initialised ) return;
+			
+		let that = this, o = that.config;
+			
+		that.inputs = [];
+		that.row = that.utils.createElement("tr");
+			
+		that.utils.each(that.instance.table.header.cells, function(cell) {
+		    that.add({
+			    index: cell.index
+			});
+		});
+			
+		that.row.addEventListener("input", function(e) {
+		    let input = that.closest(e.target, function(el) {
+				return el.nodeName === "INPUT";
+			});
+				
+			if ( input ) {
+				that.instance.columns().search(input.parentNode.cellIndex, input.value);
+			}
+		});
+			
+		that.instance.table.head.appendChild(that.row);
+			
+		that.instance.on("reset", function(columns) {
+			that.utils.each(that.inputs, function(input) {
+				input.value = null;
+			});
+		});			
+			
+		that.instance.on("columns.hide", function(columns) {
+			that.utils.each(columns, function(column) {
+				that.row.cells[column].style.display = "none";
+			});
+		});
+			
+		that.instance.on("columns.show", function(columns) {
+			that.utils.each(columns, function(column) {
+				that.row.cells[column].style.display = "";
+			});
+		});	
+			
+		that.instance.on("columns.order", function(order) {
+			let inputs = [], cells = [];
+			that.utils.each(order, function(i) {
+				inputs[i] = that.inputs[i];
+				cells.push(that.row.cells[i]);
+			});
+				
+			that.utils.each(cells, function(cell) {
+				that.row.appendChild(cell);
+			});
+				
+			that.inputs = inputs;				
+		});					
+			
+		that.instance.on("columns.add", function() {
+			that.add();
+		});			
+			
+		that.instance.on("columns.remove", function(column) {
+			that.row.removeChild(that.row.cells[column]);
+				
+			that.inputs.splice(column, 1);
+		});
+			
+		this.initialised = true;
+	}
+		
+	add(config) {
+		let that = this, o = that.config;
+			
+		let index = config && config.index !== undefined ? config.index : that.instance.columns().count() - 1;
+			
+		let options = that.utils.extend({
+			placeholder: o.placeholders && o.placeholders[index] ? o.placeholders[index] : "Search " + that.instance.table.header.cells[index].content
+		}, config);
+			
+		let td = that.utils.createElement("td", {
+			class: o.classes.filterable
+		});
+		let input = that.utils.createElement("input", {
+			type: "text",
+			class: o.classes.filter,
+			placeholder: options.placeholder || ""
+		});
+
+		if ( that.instance.config.fixedColumns ) {
+			td.style.width = ((that.instance.columnWidths[index] / that.instance.rect.width) * 100) + "%";
 		}
 
-		/**
-		 * Init instance
-		 * @return {Void}
-		 */
-		Filter.prototype.init = function() {
-			
-			if ( this.initialised ) return;
-			
-			var that = this, o = that.config;
-			
-			that.inputs = [];
-			that.row = utils.createElement("tr");
-			
-			utils.each(instance.table.header.cells, function(cell) {
-				that.add({
-					index: cell.index
-				});
-			});
-			
-			that.row.addEventListener("input", function(e) {
-				var input = closest(e.target, function(el) {
-					return el.nodeName === "INPUT";
-				});
-				
-				if ( input ) {
-					instance.columns().search(input.parentNode.cellIndex, input.value);
-				}
-			});
-			
-			instance.table.head.appendChild(that.row);
-			
-			instance.on("reset", function(columns) {
-				utils.each(that.inputs, function(input) {
-					input.value = null;
-				});
-			});			
-			
-			instance.on("columns.hide", function(columns) {
-				utils.each(columns, function(column) {
-					that.row.cells[column].style.display = "none";
-				});
-			});
-			
-			instance.on("columns.show", function(columns) {
-				utils.each(columns, function(column) {
-					that.row.cells[column].style.display = "";
-				});
-			});	
-			
-			instance.on("columns.order", function(order) {
-				var inputs = [], cells = [];
-				utils.each(order, function(i) {
-					inputs[i] = that.inputs[i];
-					cells.push(that.row.cells[i]);
-				});
-				
-				utils.each(cells, function(cell) {
-					that.row.appendChild(cell);
-				});
-				
-				that.inputs = inputs;				
-			});					
-			
-			instance.on("columns.add", function() {
-				that.add();
-			});			
-			
-			instance.on("columns.remove", function(column) {
-				that.row.removeChild(that.row.cells[column]);
-				
-				that.inputs.splice(column, 1);
-			});
-			
-			this.initialised = true;
-		};
+		td.appendChild(input)
+		that.row.appendChild(td);
+
+		that.inputs.push(input);
+	}
 		
-		Filter.prototype.add = function(config) {
+	destroy() {
+		this.instance.table.head.removeChild(this.row);
 			
-			var that = this, o = that.config;
-			
-			var index = config && config.index !== undefined ? config.index : instance.columns().count() - 1;
-			
-			var options = utils.extend({
-				placeholder: o.placeholders && o.placeholders[index] ? o.placeholders[index] : "Search " + instance.table.header.cells[index].content
-			}, config);
-			
-			
-			var td = utils.createElement("td", {
-				class: o.classes.filterable
-			});
-			var input = utils.createElement("input", {
-				type: "text",
-				class: o.classes.filter,
-				placeholder: options.placeholder || ""
-			});
+		this.initialised = false;
+	}
+}
 
-			if ( instance.config.fixedColumns ) {
-				td.style.width = ((instance.columnWidths[index] / instance.rect.width) * 100) + "%";
-			}
-
-			td.appendChild(input)
-			that.row.appendChild(td);
-
-			that.inputs.push(input);
-		};
-		
-		Filter.prototype.destroy = function() {
-			instance.table.head.removeChild(this.row);
-			
-			this.initialised = false;
-		};
-
-		return new Filter(options);
+// Register the filterable
+if (window.TedirTable) {
+	TedirTable.extend("filterable", function(instance, options, utils) {
+        return new Filter(instance, options, utils, options);
 	});
 }

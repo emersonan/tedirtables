@@ -1,0 +1,143 @@
+.tedirtable-wrapper.no-header .tedirtable-container {
+    border-top: 1px solid #d9d9d9;
+}
+.tedirtable-wrapper.no-footer .tedirtable-container {
+    border-bottom: 1px solid #d9d9d9;
+}
+.tedirtable-bottom,
+.tedirtable-top {
+    display: flex;
+    /*justify-content: space-between;*/
+    padding: 10px 0;
+}
+.tedirtable-bottom > div:first-child,
+.tedirtable-top > div:first-child {
+    align-self: flex-start;
+    flex-grow: 1;
+}
+.tedirtable-bottom > div:last-child,
+.tedirtable-top > div:last-child {
+    align-self: flex-end;
+}
+.tedirtable-selector {
+    padding: 6px;
+}
+.tedirtable-input {
+    padding: 6px 12px;
+}
+.tedirtable-info {
+    margin: 7px 0;
+}
+.tedirtable-pagination ul {
+    margin: 0;
+    padding-left: 0;
+}
+.tedirtable-pagination li {
+    list-style: none;
+    float: left;
+}
+.tedirtable-pagination a {
+    border: 1px solid transparent;
+    float: left;
+    margin-left: 2px;
+    padding: 6px 12px;
+    position: relative;
+    text-decoration: none;
+    color: #333;
+}
+.tedirtable-pagination a:hover {
+    background-color: #d9d9d9;
+}
+.tedirtable-pagination .active a,
+.tedirtable-pagination .active a:focus,
+.tedirtable-pagination .active a:hover {
+    background-color: #d9d9d9;
+    cursor: default;
+}
+.tedirtable-pagination .disabled a,
+.tedirtable-pagination .disabled a:focus,
+.tedirtable-pagination .disabled a:hover,
+.tedirtable-pagination .ellipsis a {
+    cursor: not-allowed;
+}
+.tedirtable-pagination .disabled a,
+.tedirtable-pagination .disabled a:focus,
+.tedirtable-pagination .disabled a:hover {
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+.tedirtable-pagination .pager a {
+    font-weight: 700;
+}
+.tedirtable-table {
+    max-width: 100%;
+    width: 100%;
+    border-spacing: 0;
+}
+.tedirtable-table > tbody > tr > td,
+.tedirtable-table > tbody > tr > th,
+.tedirtable-table > tfoot > tr > td,
+.tedirtable-table > tfoot > tr > th,
+.tedirtable-table > thead > tr > td,
+.tedirtable-table > thead > tr > th {
+    vertical-align: top;
+    padding: 8px 10px;
+}
+.tedirtable-table > tfoot > tr > th,
+.tedirtable-table > thead > tr > th,
+.tedirtable-table th {
+    vertical-align: bottom;
+    text-align: left;
+}
+.tedirtable-table > thead > tr > th {
+    border-bottom: 1px solid #d9d9d9;
+}
+.tedirtable-table > tfoot > tr > th {
+    border-top: 1px solid #d9d9d9;
+}
+.tedirtable-table th a {
+    text-decoration: none;
+    color: inherit;
+}
+.tedirtable-sorter {
+    height: 100%;
+    position: relative;
+    width: 100%;
+}
+.tedirtable-sorter::after,
+.tedirtable-sorter::before {
+    content: "";
+    height: 0;
+    width: 0;
+    position: absolute;
+    right: 4px;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    opacity: 0.2;
+}
+.tedirtable-sorter::before {
+    border-top: 4px solid #000;
+    bottom: 10px;
+    right: 10px;
+}
+.tedirtable-sorter::after {
+    border-bottom: 4px solid #000;
+    border-top: 4px solid transparent;
+    top: 10px;
+    right: 10px;
+}
+.asc .tedirtable-sorter::after,
+.desc .tedirtable-sorter::before {
+    opacity: 0.6;
+}
+.tedirtable-empty {
+    text-align: center;
+}
+.tedirtable-select-label {
+    display: flex;
+    align-items: center;
+}
+.tedirtable-select-label select {
+    margin-right: .5rem;
+    width: 80px;
+}

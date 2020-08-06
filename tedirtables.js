@@ -53,25 +53,32 @@
 
 		header: true,
 		footer: false,
+		
+		paginationTheme: {
+		    list: "tedirtable-pagination-list",
+		    item: "tedirtable-pagination-item",
+		    link: "tedirtable-pagination-link"
+		},
 
 		search: {
 			includeHiddenColumns: false
 		},
 
 		classes: {
-			top: "dt-top",
-			info: "dt-info",
-			input: "dt-input",
-			table: "dt-table",
-			bottom: "dt-bottom",
-			search: "dt-search",
-			sorter: "dt-sorter",
-			wrapper: "dt-wrapper",
-			dropdown: "dt-dropdown",
-			ellipsis: "dt-ellipsis",
-			selector: "dt-selector",
-			container: "dt-container",
-			pagination: "dt-pagination"
+			top: "tedirtable-top",
+			info: "tedirtable-info",
+			input: "tedirtable-input",
+			table: "tedirtable-table",
+			bottom: "tedirtable-bottom",
+			search: "tedirtable-search",
+			sorter: "tedirtable-sorter",
+			wrapper: "tedirtable-wrapper",
+			dropdown: "tedirtable-dropdown",
+			ellipsis: "tedirtable-ellipsis",
+			selector: "tedirtable-selector",
+			selectLabel: "tedirtable-select-label",
+			container: "tedirtable-container",
+			pagination: "tedirtable-pagination",
 		},
 
 		// Customise the display text
@@ -551,6 +558,8 @@
 				if (o.firstLast) {
 					ul.appendChild(that.button(c, pages, o.lastText));
 				}
+				
+				ul.classList.add(o.paginationTheme.list);
 
 				that.parent.appendChild(ul);
 			}
@@ -571,7 +580,7 @@
 			// No need to truncate if it's disabled
 			if (!o.truncatePager) {
 				each(pages, function(index) {
-					pager.push(that.button(index == page ? "active" : "", index, index));
+					pager.push(that.button(index == page ? o.paginationTheme.item +" active" : o.paginationTheme.item, index, index));
 				});
 			} else {
 				if (page < 4 - o.pagerDelta + delta) {
@@ -590,14 +599,14 @@
 				each(range, function(index) {
 					if (n) {
 						if (index - n == 2) {
-							pager.push(that.button("", n + 1, n + 1));
+							pager.push(that.button(o.paginationTheme.item, n + 1, n + 1));
 						} else if (index - n != 1) {
 							// Create ellipsis node
 							pager.push(that.button(o.classes.ellipsis, 0, o.ellipsisText, true));
 						}
 					}
 
-					pager.push(that.button(index == page ? "active" : "", index, index));
+					pager.push(that.button(index == page ? o.paginationTheme.item +" active" : o.paginationTheme.item, index, index));
 					n = index;
 				});
 			}
@@ -608,7 +617,7 @@
 		button(className, pageNum, content, ellipsis) {
 			return createElement("li", {
 				class: className,
-				html: !ellipsis ? '<a href="#" data-page="' + pageNum + '">' + content + "</a>" : '<span>' + content + "</span>"
+				html: !ellipsis ? '<a href="#" class="'+this.instance.config.paginationTheme.link+'" data-page="' + pageNum + '">' + content + "</a>" : '<span>' + content + "</span>"
 			});
 		}
     }
@@ -1115,8 +1124,7 @@
             this.config = extend(defaultConfig, config);
 
 		    if (this.config.ajax) {
-			    let that = this,
-				    ajax = this.config.ajax;
+			    let that = this, ajax = this.config.ajax;
 
 			    this.request = new XMLHttpRequest();
 
@@ -1157,8 +1165,7 @@
 
 			if (this.initialised) return;
 
-			let that = this,
-				o = that.config;
+			let that = this, o = that.config;
 			
 			that.sortable = o.sortable;
 			that.searchable = o.searchable;
@@ -1272,8 +1279,8 @@
 		}
 		
 		setClasses() {
-			classList.toggle(this.wrapper, "dt-sortable", this.sortable);
-			classList.toggle(this.wrapper, "dt-searchable", this.searchable);
+			classList.toggle(this.wrapper, "tedirtable-sortable", this.sortable);
+			classList.toggle(this.wrapper, "tedirtable-searchable", this.searchable);
 		}
 
 		extend() {
@@ -1293,8 +1300,7 @@
 		}
 
 		bindEvents() {
-			let that = this,
-				o = that.config;
+			let that = this, o = that.config;
 
 			on(that.wrapper, "mousedown", function(e) {
 				if (e.which === 1 && that.sortable && e.target.nodeName === "TH") {
@@ -1358,8 +1364,7 @@
 
 			if (this.rendered) return;
 
-			let that = this,
-				o = that.config;
+			let that = this, o = that.config;
 
 			if (this.table.hasHeader && o.fixedColumns && o.header) {
 				this.columnWidths = this.table.header.cells.map(function(cell) {
@@ -1389,7 +1394,7 @@
 			if (o.perPageSelect) {
 				let wrap = [
 					"<div class='", o.classes.dropdown, "'>",
-					"<label>", o.labels.perPage, "</label>",
+					"<label class='", o.classes.selectLabel, "'>", o.labels.perPage, "</label>",
 					"</div>"
 				].join("");
 
@@ -1477,7 +1482,7 @@
 		
 		fixHeight() {
 			this.container.style.height = null;
-			if (this.config.fixedHeight) {
+			if (this.config.fixedHeight != false) {
 				this.rect = this.container.getBoundingClientRect();
 				this.container.style.height = this.rect.height + "px";
 			}			
@@ -1623,7 +1628,7 @@
 			if ( this.hasOwnProperty(prop) ) {
 				this[prop] = val;
 				
-				classList.toggle(this.wrapper, "dt-" + prop, this[prop]);
+				classList.toggle(this.wrapper, "tedirtable-" + prop, this[prop]);
 				
 				this.update();
 			}
@@ -1650,8 +1655,7 @@
 		}
 
 		import(options) {
-			let that = this,
-				obj = false;
+			let that = this, obj = false;
 			let defaults = {
 				// csv
 				lineDelimiter: "\n",
@@ -1745,7 +1749,7 @@
 			}
 
 			let node = createElement("tr", {
-				html: '<td class="TedirTables-empty" colspan="' +
+				html: '<td class="tedirtable-empty" colspan="' +
 					colspan +
 					'">' +
 					message +
@@ -1787,9 +1791,7 @@
 
 		destroy() {
 
-			let that = this,
-				o = that.config,
-				table = that.table;
+			let that = this, o = that.config, table = that.table;
 
 			classList.remove(table.node, o.classes.table);
 
