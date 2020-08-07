@@ -1,0 +1,38 @@
+{
+  "name": "tedirtables",
+  "version": "0.0.1-development-1",
+  "description": "Tedirtable is a datatable that created using only vanilla JavaScript and made for Bootstrap 5+, Bulma and Spectre.CSS UI Framework",
+  "main": "src/tedirtables.js",
+  "scripts": {
+    "build": "rollup --config"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tedirghazali/tedirtables.git"
+  },
+  "keywords": [
+    "datatable",
+    "grid",
+    "bootstrap datatable",
+    "bulma datatable",
+    "table",
+    "spectre datatable",
+    "vanilla js"
+  ],
+  "author": "Tedir Ghazali",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tedirghazali/tedirtables/issues"
+  },
+  "homepage": "https://github.com/tedirghazali/tedirtables#readme",
+  "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
+    "@rollup/plugin-babel": "^5.1.0",
+    "@rollup/plugin-commonjs": "^14.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^8.4.0",
+    "rollup": "^2.23.0",
+    "rollup-plugin-terser": "^6.1.0"
+  }
+}

@@ -16,6 +16,10 @@ class Bootstrap {
             pagination: 'pagination',
             paginationItem: 'page-item',
             paginationLink: 'page-link',
+            dropdown: 'dropdown',
+            dropdownMenu: 'dropdown-menu',
+            dropdownItem: 'dropdown-item',
+            dropdownDivider: 'dropdown-divider'
         }
     }
     
@@ -58,15 +62,29 @@ class Bootstrap {
             input.classList.add(o.classes.input);
         }
         
-        let pager = document.querySelector(".tedirtable-pagination");
+        let pager = this.getEl(".tedirtable-pagination");
         if(pager) {
             pager.classList.remove('tedirtable-pagination');
         }
         
-        
         let filter = this.getEl(".tedirtable-filter");
         if(filter) {
             filter.classList.add(o.classes.input);
+        }
+        
+        let editorMenu = this.getEl(".tedirtable-editor-menu");
+        if(editorMenu) {
+            editorMenu.classList.add(o.classes.dropdownMenu);
+            let editorItem = this.getAll("li", editorMenu);
+            if(editorItem.length > 0) {
+                editorItem.forEach(item => {
+                    if(item.classList.contains('tedirtable-editor-separator')) {
+                        item.classList.add(o.classes.dropdownDivider);
+                    } else {
+                        item.classList.add(o.classes.dropdownItem);
+                    }
+                })
+            }
         }
         
         this.initialised = true;
@@ -74,6 +92,10 @@ class Bootstrap {
     
     getEl(elem) {
         return document.querySelector(elem);
+    }
+    
+    getAll(elem, docs = document) {
+        return [].slice.call(docs.querySelectorAll(elem));
     }
     
     destroy() {
