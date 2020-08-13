@@ -1025,6 +1025,24 @@
 						row.cells.push(cell);
 					});
 				}
+				
+				if (isset(obj, "preheading")) {
+					var cell = new Cell(createElement("th"), dt.columns().count());
+					cell.setContent(obj.preheading);
+
+					dt.table.header.node.insertBefore(cell.node, dt.table.header.node.firstChild);
+					dt.table.header.cells.unshift(cell);
+				}
+
+				if (isset(obj, "predata") && isArray(obj.predata)) {
+					each(dt.table.rows, function(row, i) {
+						var cell = new Cell(createElement("td"), row.cells.length);
+						cell.setContent(obj.predata[i] || "");
+
+						row.node.insertBefore(cell.node, row.node.firstChild);
+						row.cells.unshift(cell);
+					});
+				}
 			}
 
 			this.fix(true);
