@@ -1,5 +1,5 @@
 // Row
-import { isArray, each, createElement } from './utilities.js';
+import { isArray, each, createElement } from './utils.js';
 import Cell from './cell.js';
 
 export default class Row {

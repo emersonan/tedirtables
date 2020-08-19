@@ -1,5 +1,5 @@
 // Table
-import { each, createElement, classList } from './utilities.js';
+import { each, createElement, classList } from './utils.js';
 import Cell from './cell.js';
 import Row from './row.js';
 
