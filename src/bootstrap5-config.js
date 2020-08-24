@@ -26,9 +26,13 @@ export default {
 		includeHiddenColumns: false
 	},
 	
+	toolbar: null,
+	statusbar: null,
+
 	classes: {
-		top: "tedirtable-topbar",
-		bottom: "tedirtable-bottombar",
+		topbar: "topbar",
+		bottombar: "bottombar",
+		grid: "d-flex justify-content-between my-2",
 		info: "tedirtable-info",
 		input: "tedirtable-input",
 		table: "tedirtable-table",
@@ -40,10 +44,10 @@ export default {
 		selector: "tedirtable-selector",
 		selectLabel: "tedirtable-select-label",
 		container: "tedirtable-container",
-		pagination: "tedirtable-pagination",
-		paginationList: "tedirtable-pagination-list",
-		paginationItem: "tedirtable-pagination-item",
-	    paginationLink: "tedirtable-pagination-link"
+		pagination: "pager",
+		paginationList: "pagination",
+		paginationItem: "page-item",
+	    paginationLink: "page-link"
 	},
 
 	// Customise the display text
@@ -56,7 +60,9 @@ export default {
 
 	// Customise the layout
 	layout: {
-		top: "{select}{search}",
-		bottom: "{info}{pager}"
+		topLeft: "{select}",
+		topRight: "{search}",
+		bottomLeft: "{info}",
+		bottomRight: "{pager}"
 	}
 }

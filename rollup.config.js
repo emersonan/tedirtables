@@ -10,12 +10,12 @@ export default [
             {
                 file: 'dist/tedirtables.js',
                 format: 'umd',
-                name: 'tedirtables'
+                name: 'Tedir'
             },
             {
                 file: 'dist/tedirtables.min.js',
                 format: 'umd',
-                name: 'tedirtables',
+                name: 'Tedir',
                 plugins: [terser()]
             }
         ],
@@ -31,12 +31,18 @@ export default [
             {
                 file: 'dist/tedirtables-bootstrap5.js',
                 format: 'umd',
-                name: 'tedirtables'
+                name: 'Tedir'
             },
             {
                 file: 'dist/tedirtables-bootstrap5.min.js',
                 format: 'umd',
-                name: 'tedirtables',
+                name: 'Tedir',
+                plugins: [terser()]
+            },
+            {
+                file: 'docs/tedirtables-bootstrap5.min.js',
+                format: 'umd',
+                name: 'Tedir',
                 plugins: [terser()]
             }
         ],

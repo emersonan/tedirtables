@@ -1,5 +1,5 @@
 // PAGER
-import { each, createElement, classList } from './utils.js';
+import { empty, each, createElement, classList } from './utils.js';
 import Cell from './cell.js';
 import Row from './row.js';
 import Table from './table.js';
@@ -26,12 +26,12 @@ export default class Pager {
 
 	        // first button
 		    if (o.firstLast) {
-			    ul.appendChild(that.button(c, 1, o.firstText));
+			    ul.appendChild(that.button(o.classes.paginationItem, 1, o.firstText));
 		    }
 
 		    // prev button
 		    if (o.nextPrev) {
-			    ul.appendChild(that.button(c, prev, o.prevText));
+			    ul.appendChild(that.button(o.classes.paginationItem, prev, o.prevText));
 		    }
 
 		    var pager = that.truncate();
@@ -42,15 +42,15 @@ export default class Pager {
 
 		    // next button
 		    if (o.nextPrev) {
-			    ul.appendChild(that.button(c, next, o.nextText));
+			    ul.appendChild(that.button(o.classes.paginationItem, next, o.nextText));
 		    }
 
 		    // first button
 		    if (o.firstLast) {
-		        ul.appendChild(that.button(c, pages, o.lastText));
+		        ul.appendChild(that.button(o.classes.paginationItem, pages, o.lastText));
 		    }
 				    
-		    ul.classList.add(o.paginationTheme.list);
+		    ul.classList.add(o.classes.paginationList);
 
 		    that.parent.appendChild(ul);
         }
@@ -71,7 +71,7 @@ export default class Pager {
 		// No need to truncate if it's disabled
 		if (!o.truncatePager) {
 			each(pages, function(index) {
-				pager.push(that.button(index == page ? o.paginationTheme.item +" active" : o.paginationTheme.item, index, index));
+				pager.push(that.button(index == page ? o.classes.paginationItem +" active" : o.classes.paginationItem, index, index));
 			});
 		} else {
 			if (page < 4 - o.pagerDelta + delta) {
@@ -90,14 +90,14 @@ export default class Pager {
 			each(range, function(index) {
 				if (n) {
 					if (index - n == 2) {
-						pager.push(that.button(o.paginationTheme.item, n + 1, n + 1));
+						pager.push(that.button(o.classes.paginationItem, n + 1, n + 1));
 					} else if (index - n != 1) {
 						// Create ellipsis node
 						pager.push(that.button(o.classes.ellipsis, 0, o.ellipsisText, true));
 					}
 				}
 
-				pager.push(that.button(index == page ? o.paginationTheme.item +" active" : o.paginationTheme.item, index, index));
+				pager.push(that.button(index == page ? o.classes.paginationItem +" active" : o.classes.paginationItem, index, index));
 				n = index;
 			});
 		}
@@ -108,7 +108,7 @@ export default class Pager {
 	button(className, pageNum, content, ellipsis) {
 		return createElement("li", {
 			class: className,
-			html: !ellipsis ? '<a href="#" class="'+this.instance.config.paginationTheme.link+'" data-page="' + pageNum + '">' + content + "</a>" : '<span>' + content + "</span>"
+			html: !ellipsis ? '<a href="#" class="'+this.instance.config.classes.paginationLink+'" data-page="' + pageNum + '">' + content + "</a>" : '<span>' + content + "</span>"
 		});
 	}
 }

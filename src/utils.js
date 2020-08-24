@@ -81,7 +81,7 @@ const each = (arr, fn, scope) => {
 * @return {Object}
 */
 const createElement = (type, options) => {
-    var node = doc.createElement(type);
+    var node = document.createElement(type);
     if (options && "object" == typeof options) {
 		var prop;
 		for (prop in options) {
@@ -120,6 +120,7 @@ const on = (el, e, fn) => el.addEventListener(e, fn, false);
 * @param  {Object} el HTMLElement
 */
 const empty = el => {
+    let IE = !!/(msie|trident)/i.test(navigator.userAgent);
 	if (IE) {
 		while (el.hasChildNodes()) {
 			el.removeChild(el.lastChild);
@@ -135,7 +136,7 @@ const empty = el => {
 */
 const classList = {
 	add: (s, a) => {
-		if (supports) {
+		if ("classList" in document.body) {
 			s.classList.add(a);
 		} else {
 			if (!classList.contains(s, a)) {
@@ -144,7 +145,7 @@ const classList = {
 		}
 	},
 	remove: (s, a) => {
-		if (supports) {
+		if ("classList" in document.body) {
 			s.classList.remove(a);
 		} else {
 			if (classList.contains(s, a)) {
@@ -152,7 +153,7 @@ const classList = {
 			}
 		}
 	},
-	contains: (s, a) => supports ? s.classList.contains(a) : !!s.className && !!s.className.match(new RegExp("(\\s|^)" + a + "(\\s|$)")),
+	contains: (s, a) => ("classList" in document.body) ? s.classList.contains(a) : !!s.className && !!s.className.match(new RegExp("(\\s|^)" + a + "(\\s|$)")),
 	toggle: function(t, n, force) {
 		n += "";
 		let i = this.contains(t, n), o = i ? true !== force && "remove" : false !== force && "add";

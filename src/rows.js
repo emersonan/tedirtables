@@ -37,7 +37,7 @@ export default class Rows {
 
 		if (page < 1 || page > dt.totalPages) return;
 
-		let head = dt.table.header, fragment = doc.createDocumentFragment();
+		let head = dt.table.header, fragment = document.createDocumentFragment();
 
 		if (dt.table.hasHeader) {
 			empty(head.node);

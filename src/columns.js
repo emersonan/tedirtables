@@ -4,7 +4,6 @@ import Cell from './cell.js';
 import Row from './row.js';
 import Table from './table.js';
 import Pager from './pager.js';
-import Rows from './rows.js';
 
 export default class Columns {
     constructor(instance, select) {

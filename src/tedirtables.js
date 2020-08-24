@@ -5,10 +5,11 @@ import Cell from './cell.js';
 import Row from './row.js';
 import Table from './table.js';
 import Pager from './pager.js';
+import Columns from './columns.js';
 import Rows from './rows.js';
 import defaultConfig from './default-config.js';
 
-export default class TedirTable {
+export class DataTable {
     constructor(table, config) {
         console.log('version ' + version);
         this.config = extend(defaultConfig, config);
@@ -680,7 +681,7 @@ export default class TedirTable {
 			classList.remove(cell.node, o.classes.sorter);
 		});
 
-		let frag = doc.createDocumentFragment();
+		let frag = document.createDocumentFragment();
 		empty(table.body);
 
 		each(table.rows, function(row) {
