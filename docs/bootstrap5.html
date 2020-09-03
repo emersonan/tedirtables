@@ -10,6 +10,10 @@
     <div class="container">
      <div class="row">
       <div class="col-md-12 loading">
+        <div id="toolbar" class="btn-group">
+            <button type="button" class="btn btn-success">JSON</button>
+            <button type="button" class="btn btn-info">CSV</button>
+        </div>
        <table class="table table-bordered table-striped">
         <thead>
          <tr>
@@ -640,8 +644,27 @@
         ];
 
         const table = new Tedir.DataTable("table", {
-	        // footer: true,
+	        footer: true,
 	        fixedHeight: true,
+	        layout: {
+		        topLeft: "{buttons} {toolbar}",
+		        topRight: "{search}",
+		        bottomLeft: "{select} {info}",
+		        bottomRight: "{pager}"
+	        },
+	        buttons: [
+	            {
+	                name: "add",
+	                text: "Add",
+	                class: "btn btn-primary mr-1"
+	            },
+	            {
+	                name: "edit",
+	                text: "Edit",
+	                class: "btn btn-warning mr-1"
+	            }
+	        ],
+	        toolbar: "#toolbar",
 	        //filterable: {
 		        // placeholders: [
 		        // 	"Search foo", "bar", "baz", "qux"

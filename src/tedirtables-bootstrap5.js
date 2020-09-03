@@ -241,6 +241,7 @@ export class DataTable {
 				}
 			});
 		}
+		
 	}
 
 	render() {
@@ -262,31 +263,42 @@ export class DataTable {
 
 		// Template for custom layouts
 		let inner = [
-			"<div class='", o.classes.topbar, " ", o.classes.grid, "'>", o.layout.topLeft, o.layout.topRight, "</div>",
+			"<div class='", o.classes.topbar, " ", o.classes.grid, "'>", "<div class=", o.classes.gridStart,">", o.layout.topLeft, "</div>", "<div class=", o.classes.gridEnd,">", o.layout.topRight, "</div>", "</div>",
 			"<div class='", o.classes.container, "'></div>",
-			"<div class='", o.classes.bottombar, " ", o.classes.grid, "'>", o.layout.bottomLeft, o.layout.bottomRight, "</div>"
+			"<div class='", o.classes.bottombar, " ", o.classes.grid, "'>", "<div class=", o.classes.gridStart,">", o.layout.bottomLeft, "</div>", "<div class=", o.classes.gridEnd,">", o.layout.bottomRight, "</div>", "</div>"
 		].join("");
 		
+		// Button placement
+		if(o.buttons != null && Array.isArray(o.buttons)) {
+		    if(o.buttons.length > 0) {
+		        const btn = [];
+		        each(o.buttons, button => {
+		            const btnname = (button.name) ? button.name : '';
+		            const btnclass = (button.class) ? button.class : '';
+		            const btnstyle = (button.style) ? button.style : '';
+		            const btntext = (button.text) ? button.text : '';
+		            btn.push('<button type="button" id="'+btnname+'" name="'+btnname+'" class="'+btnclass+'" style="'+btnstyle+'">'+btntext+'</button>');
+		        });
+		        inner = inner.replace(
+			        "{buttons}",
+			        btn.join("")
+		        );
+		    }
+		}
+
 		// Toolbar placement
 		if(o.toolbar != null) {
 		    inner = inner.replace(
 			    "{toolbar}",
 			    document.querySelector(o.toolbar).outerHTML
 		    );
-		}
-
-		// Statusbar placement
-		if(o.statusbar != null) {
-		    inner = inner.replace(
-			    "{statusbar}",
-			    document.querySelector(o.statusbar).outerHTML
-		    );
+		    document.querySelectorAll(o.toolbar)[0].style.display = "none";
 		}
 
 		// Info placement
 		inner = inner.replace(
 			"{info}",
-			"<div class='" + o.classes.info + "'></div>"
+			"<div class='" + o.classes.info + " mt-1'></div>"
 		);
 
 		// Per Page Select
@@ -416,7 +428,7 @@ export class DataTable {
 			});
 		}
 	}
-
+	
 	search(query, column) {
 		let that = this;
 

@@ -26,13 +26,15 @@ export default {
 		includeHiddenColumns: false
 	},
 	
+	buttons: null,
 	toolbar: null,
-	statusbar: null,
 
 	classes: {
 		topbar: "topbar",
 		bottombar: "bottombar",
 		grid: "d-flex justify-content-between my-2",
+		gridStart: "d-flex justify-content-start",
+		gridEnd: "d-flex justify-content-end",
 		info: "tedirtable-info",
 		input: "tedirtable-input",
 		table: "tedirtable-table",

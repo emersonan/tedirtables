@@ -1087,12 +1087,14 @@
     search: {
       includeHiddenColumns: false
     },
+    buttons: null,
     toolbar: null,
-    statusbar: null,
     classes: {
       topbar: "topbar",
       bottombar: "bottombar",
       grid: "d-flex justify-content-between my-2",
+      gridStart: "d-flex justify-content-start",
+      gridEnd: "d-flex justify-content-end",
       info: "tedirtable-info",
       input: "tedirtable-input",
       table: "tedirtable-table",
@@ -1372,19 +1374,30 @@
           "class": o.classes.wrapper
         }); // Template for custom layouts
 
-        var inner = ["<div class='", o.classes.topbar, " ", o.classes.grid, "'>", o.layout.topLeft, o.layout.topRight, "</div>", "<div class='", o.classes.container, "'></div>", "<div class='", o.classes.bottombar, " ", o.classes.grid, "'>", o.layout.bottomLeft, o.layout.bottomRight, "</div>"].join(""); // Toolbar placement
+        var inner = ["<div class='", o.classes.topbar, " ", o.classes.grid, "'>", "<div class=", o.classes.gridStart, ">", o.layout.topLeft, "</div>", "<div class=", o.classes.gridEnd, ">", o.layout.topRight, "</div>", "</div>", "<div class='", o.classes.container, "'></div>", "<div class='", o.classes.bottombar, " ", o.classes.grid, "'>", "<div class=", o.classes.gridStart, ">", o.layout.bottomLeft, "</div>", "<div class=", o.classes.gridEnd, ">", o.layout.bottomRight, "</div>", "</div>"].join(""); // Button placement
+
+        if (o.buttons != null && Array.isArray(o.buttons)) {
+          if (o.buttons.length > 0) {
+            var btn = [];
+            each(o.buttons, function (button) {
+              var btnname = button.name ? button.name : '';
+              var btnclass = button["class"] ? button["class"] : '';
+              var btnstyle = button.style ? button.style : '';
+              var btntext = button.text ? button.text : '';
+              btn.push('<button type="button" id="' + btnname + '" name="' + btnname + '" class="' + btnclass + '" style="' + btnstyle + '">' + btntext + '</button>');
+            });
+            inner = inner.replace("{buttons}", btn.join(""));
+          }
+        } // Toolbar placement
+
 
         if (o.toolbar != null) {
           inner = inner.replace("{toolbar}", document.querySelector(o.toolbar).outerHTML);
-        } // Statusbar placement
-
-
-        if (o.statusbar != null) {
-          inner = inner.replace("{statusbar}", document.querySelector(o.statusbar).outerHTML);
+          document.querySelectorAll(o.toolbar)[0].style.display = "none";
         } // Info placement
 
 
-        inner = inner.replace("{info}", "<div class='" + o.classes.info + "'></div>"); // Per Page Select
+        inner = inner.replace("{info}", "<div class='" + o.classes.info + " mt-1'></div>"); // Per Page Select
 
         if (o.perPageSelect) {
           var wrap = ["<div class='", o.classes.dropdown, "'>", "<label class='", o.classes.selectLabel, "'>", o.labels.perPage, "</label>", "</div>"].join(""); // Create the select
